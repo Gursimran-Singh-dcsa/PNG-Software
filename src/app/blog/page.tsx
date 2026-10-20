@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/layout/PageHero";
 import { BlogList } from "@/components/sections/BlogList";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description: "Insights on AI, RAG, SEO, digital marketing and web development from the PNG Software team.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Blog — AI, Web & Growth Insights | PNG Software",
+  description: "Practical insights on AI, RAG, SEO, digital marketing and web development from the PNG Software team — what works and how to apply it.",
+  path: "/blog/",
+});
 
 export default function BlogPage() {
   return (

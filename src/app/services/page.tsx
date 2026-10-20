@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/layout/PageHero";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { Process } from "@/components/sections/Process";
@@ -6,10 +7,11 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ServiceIcon } from "@/components/visuals/ServiceIcon";
 import { services } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Services",
-  description: "Website development, RAG & Generative AI, SEO, digital marketing, CoE, app development and ERP software.",
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Web, AI, SEO & Marketing Services | PNG Software",
+  description: "Website development, RAG and Generative AI, SEO, digital marketing, AI Centre of Excellence, app development and ERP software — one accountable team.",
+  path: "/services/",
+});
 
 export default function ServicesPage() {
   return (

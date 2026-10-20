@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/layout/PageHero";
 import { CtaBand } from "@/components/sections/CtaBand";
 import { Intro } from "@/components/sections/Intro";
@@ -7,10 +8,11 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: `${site.name} — a technology partner for growing businesses.`,
-};
+export const metadata: Metadata = pageMetadata({
+  title: "About Us — Your Technology Partner | PNG Software",
+  description: "PNG Software is a technology partner for growing businesses: websites, AI and digital marketing delivered on time and supported for the long term.",
+  path: "/about/",
+});
 
 const values = [
   { title: "Our mission", text: "To deliver customised, efficient and scalable solutions that drive business growth, improve operational efficiency and foster innovation across industries." },

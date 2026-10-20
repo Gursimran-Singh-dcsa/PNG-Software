@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { pageMetadata } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import { BlogCard } from "@/components/sections/BlogCard";
 import { CtaBand } from "@/components/sections/CtaBand";
@@ -16,11 +17,13 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): Promise<Metadata> {
   const post = getPost((await params).slug);
   if (!post) return {};
-  return {
-    title: post.title,
+  return pageMetadata({
+    // Keep share titles within the recommended 60 characters.
+    title: post.title.length + 15 <= 60 ? `${post.title} | PNG Software` : post.title,
     description: post.excerpt,
-    openGraph: { type: "article", title: post.title, description: post.excerpt, publishedTime: post.date },
-  };
+    path: `/blog/${post.slug}/`,
+    article: { publishedTime: post.date, author: post.author, section: post.category },
+  });
 }
 
 export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {

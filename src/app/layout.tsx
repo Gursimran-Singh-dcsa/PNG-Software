@@ -3,7 +3,10 @@ import { Inter, Sora } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
+import { pageMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
+
+const homeTitle = `${site.name} — Websites, AI & Digital Marketing`;
 import "./globals.css";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
@@ -11,17 +14,7 @@ const sora = Sora({ variable: "--font-sora", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: {
-    default: `${site.name} — Websites, AI & Digital Marketing`,
-    template: `%s | ${site.name}`,
-  },
-  description: site.description,
-  openGraph: {
-    title: site.name,
-    description: site.description,
-    type: "website",
-    locale: "en_IN",
-  },
+  ...pageMetadata({ title: homeTitle, description: site.description, path: "/" }),
 };
 
 export const viewport: Viewport = {

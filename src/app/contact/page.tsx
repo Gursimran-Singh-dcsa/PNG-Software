@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/layout/PageHero";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { site } from "@/lib/site";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: `Talk to ${site.name}. Call ${site.phones.map((p) => p.display).join(" / ")} or email ${site.email}.`,
-};
+export const metadata: Metadata = pageMetadata({
+  title: "Contact Us — Start Your Project | PNG Software",
+  description: `Talk to ${site.name} about your website, AI or marketing project. Call ${site.phones.map((p) => p.display).join(" / ")} or email ${site.email}.`,
+  path: "/contact/",
+});
 
 export default function ContactPage() {
   const cards = [
