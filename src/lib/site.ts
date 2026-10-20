@@ -3,8 +3,8 @@ export const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? "
 
 export const site = {
   // Production domain — used for the sitemap, robots.txt and canonical URLs.
-  // Set NEXT_PUBLIC_SITE_URL at build time (e.g. https://www.yourdomain.com).
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.example.com").replace(/\/$/, ""),
+  // Override with NEXT_PUBLIC_SITE_URL at build time if the domain changes.
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://pngsoftware.in").replace(/\/$/, ""),
   name: "PNG Software",
   tagline: "Innovate. Develop. Succeed.",
   description:

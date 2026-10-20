@@ -1,10 +1,9 @@
-# Builds the static Next.js export and publishes it to GitHub Pages on every push to main.
-# One-time setup: repo Settings → Pages → Build and deployment → Source: "GitHub Actions".
-name: Deploy to GitHub Pages
+name: Deploy Next.js to GitHub Pages
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -12,7 +11,7 @@ permissions:
   pages: write
   id-token: write
 
-# Only one deployment at a time; a newer push cancels a queued (not running) one.
+# One deployment at a time; a newer push waits rather than racing an older one.
 concurrency:
   group: pages
   cancel-in-progress: false
@@ -20,40 +19,42 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: npm
-
-      # Gives the Pages URL and sub-path (e.g. /PNG-Software, or empty with a custom domain).
-      - id: pages
-        uses: actions/configure-pages@v5
-
-      - run: npm ci
-
-      - run: npm run lint
-
-      - run: npm run build
-        env:
-          NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
-          NEXT_PUBLIC_SITE_URL: ${{ steps.pages.outputs.base_url }}
-
-      # Pages serves files starting with "_" (like _next/) only when Jekyll is off.
-      - run: touch out/.nojekyll
-
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: out
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - id: deployment
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+        env:
+          # Served from the root of the custom domain, so no sub-path.
+          NEXT_PUBLIC_BASE_PATH: ""
+          # Absolute URLs in sitemap.xml, robots.txt and share (Open Graph / Twitter) tags.
+          NEXT_PUBLIC_SITE_URL: https://pngsoftware.in
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./out
+
+      - name: Deploy to GitHub Pages
+        id: deployment
         uses: actions/deploy-pages@v4
