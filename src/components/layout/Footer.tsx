@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { nav, services, site } from "@/lib/site";
+import { asset, nav, services, site } from "@/lib/site";
 import { Logo } from "../visuals/Logo";
 
 
@@ -16,8 +16,8 @@ export function Footer() {
             <p className="mt-6 font-display text-lg font-semibold text-accent-300">{site.tagline}</p>
             <ul className="mt-8 flex flex-wrap gap-3">
               {[
-                { label: "WhatsApp", detail: site.whatsapp.display, href: site.whatsapp.href, icon: "/icons/whatsapp.svg" },
-                { label: "Instagram", detail: site.instagram.handle, href: site.instagram.href, icon: "/icons/instagram.svg" },
+                { label: "WhatsApp", detail: site.whatsapp.display, href: site.whatsapp.href, icon: asset("/icons/whatsapp.svg") },
+                { label: "Instagram", detail: site.instagram.handle, href: site.instagram.href, icon: asset("/icons/instagram.svg") },
               ].map((s) => (
                 <li key={s.label}>
                   <a

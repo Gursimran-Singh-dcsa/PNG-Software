@@ -1,3 +1,6 @@
+/** Prefix for files in /public — next/image does not add basePath on its own. */
+export const asset = (path: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${path}`;
+
 export const site = {
   // Production domain — used for the sitemap, robots.txt and canonical URLs.
   // Set NEXT_PUBLIC_SITE_URL at build time (e.g. https://www.yourdomain.com).
