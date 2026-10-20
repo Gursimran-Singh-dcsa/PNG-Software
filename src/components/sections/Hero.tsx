@@ -1,4 +1,3 @@
-import { site } from "@/lib/site";
 import { Button } from "../ui/Button";
 import { Reveal } from "../ui/Reveal";
 import { SplitWords } from "../ui/SplitWords";
@@ -19,7 +18,7 @@ export function Hero() {
                 <span className="absolute inset-0 rounded-full bg-accent-400 motion-safe:animate-ping" />
                 <span className="relative size-2 rounded-full bg-accent-400" />
               </span>
-              Building digital products since {site.founded}
+              Web · AI · SEO · Digital marketing
             </span>
           </Reveal>
 

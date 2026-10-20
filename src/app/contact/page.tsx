@@ -43,16 +43,6 @@ export default function ContactPage() {
                 </a>
               </Reveal>
             ))}
-            <Reveal delay={300} className="rounded-2xl border-l-4 border-brand-600 bg-brand-50 p-6">
-              <span className="block text-xs font-semibold tracking-[0.2em] text-brand-700 uppercase">Office</span>
-              <address className="mt-3 leading-relaxed text-ink-700 not-italic">
-                {site.address.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </address>
-            </Reveal>
           </div>
 
           <Reveal variant="right" className="lg:col-span-7">

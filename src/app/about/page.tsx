@@ -9,7 +9,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `${site.legalName} — a technology partner founded in ${site.founded} in Ambala, Haryana.`,
+  description: `${site.legalName} — a technology partner for growing businesses.`,
 };
 
 const values = [
@@ -19,8 +19,6 @@ const values = [
 ];
 
 const glance = [
-  { label: "Founded", text: "September 2022, as PNG Software Technologies Private Limited." },
-  { label: "Based in", text: "Ambala City, Haryana, India — working with clients across industries." },
   { label: "Delivered", text: "10+ web applications, built to scale and supported after launch." },
   { label: "Expertise", text: "Web & app development, RAG and Generative AI, CoE, SEO, digital marketing and ERP." },
 ];
@@ -30,7 +28,7 @@ export default function AboutPage() {
     <>
       <PageHero
         eyebrow="About us"
-        title="A forward-thinking technology partner from Haryana."
+        title="A forward-thinking technology partner for growing businesses."
         lead={`${site.legalName} builds digital products that help businesses thrive — with the care of a small team and the discipline of a large one.`}
       />
 

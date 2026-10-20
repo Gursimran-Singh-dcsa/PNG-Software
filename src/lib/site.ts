@@ -10,7 +10,6 @@ export const site = {
   tagline: "Innovate. Develop. Succeed.",
   description:
     "PNG Software builds websites, AI solutions and digital-marketing programmes that help businesses grow — delivered on time and supported for the long term.",
-  founded: "September 2022",
   phones: [
     { display: "+91-8950848075", href: "tel:+918950848075" },
     { display: "+91-9650684442", href: "tel:+919650684442" },
@@ -21,11 +20,6 @@ export const site = {
   },
   instagram: { handle: "@png_software", href: "https://www.instagram.com/png_software/" },
   email: "pngsoftware22@gmail.com",
-  address: [
-    "Plot 77-79, Jaggi Garden, Mouja Dhulkote",
-    "Near Universal Property Dealer",
-    "Ambala City, Haryana 134003, India",
-  ],
 };
 
 export const nav = [
@@ -154,7 +148,6 @@ export const strengths = [
 
 export const stats = [
   { value: 10, suffix: "+", label: "Web applications delivered" },
-  { value: 2022, suffix: "", label: "Founded in September" },
   { value: 100, suffix: "%", label: "Client satisfaction" },
   { value: 7, suffix: "", label: "Core service lines" },
 ];

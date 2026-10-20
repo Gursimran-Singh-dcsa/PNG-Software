@@ -72,15 +72,13 @@ export function Footer() {
                 {site.email}
               </a>
             </li>
-            <li className="leading-relaxed">{site.address[2]}</li>
           </FooterCol>
         </div>
 
-        <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-white/45 sm:flex-row sm:items-center">
           <p>
             © {new Date().getFullYear()} {site.legalName}. All rights reserved.
           </p>
-          <p>Serving clients since {site.founded}.</p>
         </div>
       </div>
     </footer>
