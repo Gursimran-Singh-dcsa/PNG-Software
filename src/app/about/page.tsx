@@ -9,7 +9,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `${site.legalName} — a technology partner for growing businesses.`,
+  description: `${site.name} — a technology partner for growing businesses.`,
 };
 
 const values = [
@@ -29,7 +29,7 @@ export default function AboutPage() {
       <PageHero
         eyebrow="About us"
         title="A forward-thinking technology partner for growing businesses."
-        lead={`${site.legalName} builds digital products that help businesses thrive — with the care of a small team and the discipline of a large one.`}
+        lead={`${site.name} builds digital products that help businesses thrive — with the care of a small team and the discipline of a large one.`}
       />
 
       <Intro />

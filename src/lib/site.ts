@@ -6,7 +6,6 @@ export const site = {
   // Set NEXT_PUBLIC_SITE_URL at build time (e.g. https://www.yourdomain.com).
   url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.example.com").replace(/\/$/, ""),
   name: "PNG Software",
-  legalName: "PNG Software Technologies Private Limited",
   tagline: "Innovate. Develop. Succeed.",
   description:
     "PNG Software builds websites, AI solutions and digital-marketing programmes that help businesses grow — delivered on time and supported for the long term.",

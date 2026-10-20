@@ -77,7 +77,7 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-white/45 sm:flex-row sm:items-center">
           <p>
-            © {new Date().getFullYear()} {site.legalName}. All rights reserved.
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
           </p>
         </div>
       </div>
