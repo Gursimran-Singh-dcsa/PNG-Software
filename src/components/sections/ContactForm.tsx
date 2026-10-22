@@ -1,26 +1,43 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
+import HCaptcha from "@hcaptcha/react-hcaptcha";
 import { services, site } from "@/lib/site";
 
-/** Static site, no backend: the form composes an email in the visitor's mail app. */
-export function ContactForm() {
-  const [sent, setSent] = useState(false);
+type Status = "idle" | "sending" | "sent" | "error" | "captcha";
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+// Web3Forms' shared hCaptcha sitekey for free plans (custom keys need a paid plan).
+const HCAPTCHA_SITEKEY = "50b2fe65-b00b-4b9e-ad62-3ba471098be2";
+
+/** Static site, no backend: submissions go to Web3Forms, which emails them to us. */
+export function ContactForm() {
+  const [status, setStatus] = useState<Status>("idle");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const captcha = useRef<HCaptcha>(null);
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const subject = `Project enquiry — ${data.get("service") || "General"}`;
-    const body = [
-      `Name: ${data.get("name")}`,
-      `Email: ${data.get("email")}`,
-      `Phone: ${data.get("phone") || "-"}`,
-      `Service: ${data.get("service") || "-"}`,
-      "",
-      String(data.get("message") ?? ""),
-    ].join("\n");
-    window.location.href = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    setSent(true);
+    if (!captchaToken) return setStatus("captcha");
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    data.append("access_key", site.web3formsKey);
+    data.append("subject", `Project enquiry — ${data.get("service") || "General"}`);
+    data.append("from_name", `${site.name} website`);
+    data.append("h-captcha-response", captchaToken);
+    setStatus("sending");
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", { method: "POST", body: data });
+      const json = await res.json();
+      if (!json.success) throw new Error(json.message);
+      form.reset();
+      setStatus("sent");
+    } catch {
+      setStatus("error");
+    } finally {
+      // Tokens are single-use, so every attempt needs a fresh check.
+      captcha.current?.resetCaptcha();
+      setCaptchaToken("");
+    }
   };
 
   const field =
@@ -29,7 +46,10 @@ export function ContactForm() {
   return (
     <form onSubmit={onSubmit} className="rounded-3xl border border-ink-200 bg-white p-6 shadow-xl shadow-brand-900/5 sm:p-10">
       <h2 className="text-h3 text-ink-900">Send us a message</h2>
-      <p className="text-body mt-2">This opens your email app with the details filled in.</p>
+      <p className="text-body mt-2">We usually reply within one working day.</p>
+
+      {/* Honeypot: hidden from people, filled in by spam bots; Web3Forms drops those. */}
+      <input type="checkbox" name="botcheck" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
 
       <div className="mt-8 grid gap-5 sm:grid-cols-2">
         <label className="text-sm font-medium text-ink-700">
@@ -41,8 +61,16 @@ export function ContactForm() {
           <input name="email" type="email" required autoComplete="email" className={field} />
         </label>
         <label className="text-sm font-medium text-ink-700">
-          Phone <span className="font-normal text-ink-400">(optional)</span>
-          <input name="phone" type="tel" autoComplete="tel" className={field} />
+          Phone
+          <input
+            name="phone"
+            type="tel"
+            required
+            autoComplete="tel"
+            pattern="[0-9\+\-\(\)\s]{7,20}"
+            title="Enter a valid phone number"
+            className={field}
+          />
         </label>
         <label className="text-sm font-medium text-ink-700">
           Service
@@ -59,14 +87,31 @@ export function ContactForm() {
         </label>
       </div>
 
+      <div className="mt-6">
+        <HCaptcha
+          ref={captcha}
+          sitekey={HCAPTCHA_SITEKEY}
+          reCaptchaCompat={false}
+          onVerify={(token) => {
+            setCaptchaToken(token);
+            if (status === "captcha") setStatus("idle");
+          }}
+          onExpire={() => setCaptchaToken("")}
+        />
+      </div>
+
       <button
         type="submit"
-        className="mt-8 inline-flex h-12 w-full items-center justify-center rounded-full bg-brand-600 px-8 text-sm font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 sm:w-auto"
+        disabled={status === "sending"}
+        className="mt-6 inline-flex h-12 w-full items-center justify-center rounded-full bg-brand-600 px-8 text-sm font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 disabled:cursor-wait disabled:opacity-70 sm:w-auto"
       >
-        Send enquiry
+        {status === "sending" ? "Sending…" : "Send enquiry"}
       </button>
-      <p role="status" className="mt-4 text-sm text-brand-700">
-        {sent ? `If your email app didn't open, email us at ${site.email} or call ${site.phones.map((p) => p.display).join(" / ")}.` : ""}
+      <p role="status" className={`mt-4 text-sm ${status === "error" || status === "captcha" ? "text-red-600" : "text-brand-700"}`}>
+        {status === "captcha" && "Please complete the captcha before sending."}
+        {status === "sent" && "Thanks! Your enquiry has been sent. We'll be in touch soon."}
+        {status === "error" &&
+          `Sorry, that didn't go through. Please email us at ${site.email} or call ${site.phones.map((p) => p.display).join(" / ")}.`}
       </p>
     </form>
   );

@@ -19,6 +19,8 @@ export const site = {
   },
   instagram: { handle: "@png_software", href: "https://www.instagram.com/png_software/" },
   email: "pngsoftware22@gmail.com",
+  // Web3Forms access key for the contact form. It is public by design (sent from the browser).
+  web3formsKey: "d6212429-a98b-4ffb-ba7c-ce59b3f1eb63",
 };
 
 export const nav = [
